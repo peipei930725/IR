@@ -14,11 +14,16 @@ pip install -r requirements.txt
 2. 執行爬蟲（範例：抓 1 頁）：
 
 ```powershell
-python scrape_technews_ai.py --output ai_articles.jsonl --max-pages 1 --delay 1.0
+python crawler.py --seeds seeds.txt --output corpus.jsonl --max-pages 1000 --delay 0.1
+```
+
+3. 執行查詢網頁
+```powershell
+python app.py
 ```
 
 
-輸出檔案：`ai_articles.jsonl`（UTF-8），每行為一個 JSON 物件。新增擷取欄位包含：
+輸出檔案：`corpus.jsonl`（UTF-8），每行為一個 JSON 物件。新增擷取欄位包含：
 
 ```json
 {
