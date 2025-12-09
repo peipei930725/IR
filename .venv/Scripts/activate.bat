@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\peipe\OneDrive\桌面\IR\.venv
+set VIRTUAL_ENV=C:\Users\asus\Desktop\git_repos\IR\.venv
 
 if not defined PROMPT set PROMPT=$P$G
 

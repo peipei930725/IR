@@ -14,7 +14,8 @@ import argparse
 import json
 import os
 import time  # <--- 新增：用於計算時間
-from flask import Flask, request, render_template_string, Markup
+from flask import Flask, request, render_template_string
+from markupsafe import Markup
 
 from search import rank
 
