@@ -160,7 +160,7 @@ def main() -> None:
     parser.add_argument("--seeds", default="seeds.txt", help="File with seed URLs (one per line)")
     parser.add_argument("--output", default="corpus.jsonl", help="Output JSONL file")
     parser.add_argument("--max-pages", type=int, default=1000)
-    parser.add_argument("--delay", type=float, default=0.1, help="Delay between requests (seconds, default 0.1)")
+    parser.add_argument("--delay", type=float, default=2.0, help="Delay between requests (seconds, default 2.0)")
     args = parser.parse_args()
 
     try:
