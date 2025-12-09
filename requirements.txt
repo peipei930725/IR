@@ -1,0 +1,6 @@
+requests
+beautifulsoup4
+flask
+jieba
+nltk
+scikit-learn
