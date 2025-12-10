@@ -123,28 +123,29 @@ def search_page():
 
         for r in ranked:
             doc = r["doc"]
-            text = doc.get("main_text", "")
-            snippet = ""
             
-            # 改進的 Snippet 生成邏輯
-            if text:
-                # 簡單清理換行，避免排版亂掉
-                clean_text = text.replace('\n', ' ')
-                idx = clean_text.lower().find(q.lower())
-                
-                if idx != -1:
-                    start = max(0, idx - 60)
-                    end = min(len(clean_text), idx + 60)
-                    raw_snippet = clean_text[start:end]
-                    
-                    # Bonus UI: 關鍵字高亮 (Highlighting)
-                    # 使用 replace 將關鍵字包上 <em> 標籤
-                    # 注意：這裡簡單處理，未考慮大小寫完全匹配取代問題
-                    highlighted = raw_snippet.replace(q, f"<em>{q}</em>")
-                    snippet = highlighted
-                else:
-                    snippet = clean_text[:120]
+            # --- 修改重點開始 ---
+            # 1. 嘗試從 doc 中直接讀取 indexer.py 存好的 'snippet'
+            #    如果沒有 snippet，則嘗試讀取 'main_text' (以防萬一)
+            raw_snippet = doc.get("snippet") or doc.get("main_text") or ""
             
+            # 2. 如果讀出來的是完整的 main_text (太長)，我們需要截斷它
+            #    如果你在 indexer.py 已經截斷過了，這裡就不會執行
+            if len(raw_snippet) > 150:
+                # 簡單截取前 150 字
+                raw_snippet = raw_snippet[:150] + "..."
+
+            # 3. 處理關鍵字高亮 (Highlighting)
+            #    這是加分項：將關鍵字用 <em> 標籤包起來
+            if q and raw_snippet:
+                # 注意：這裡使用簡單的字串取代。
+                # 如果要做到不分大小寫取代 (Case-insensitive)，需要用 re 模組，
+                # 但作業等級用 replace 即可。
+                snippet = raw_snippet.replace(q, f"<em>{q}</em>")
+            else:
+                snippet = raw_snippet
+            # --- 修改重點結束 ---
+
             results.append({"score": r["score"], "doc": doc, "snippet": snippet})
 
     return render_template_string(PAGE, q=q, results=results, elapsed=elapsed)

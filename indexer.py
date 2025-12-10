@@ -74,7 +74,16 @@ def build_index(docs: List[dict], outdir: str) -> None:
     # save artifacts
     docs_meta = []
     for i, d in enumerate(docs):
-        docs_meta.append({"id": i, "title": d.get("title"), "url": d.get("url"), "fetch_time": d.get("fetch_time")})
+        snippet = d.get("main_text") or d.get("content") or ""
+        snippet = snippet[:100] + "..." # 只存前200字作為摘要，節省空間
+
+        docs_meta.append({
+            "id": i, 
+            "title": d.get("title"), 
+            "url": d.get("url"), 
+            "fetch_time": d.get("fetch_time"),
+            "snippet": snippet 
+        })
 
     # numpy save
     np.savez_compressed(os.path.join(outdir, "counts.npz"), data=counts.toarray())
